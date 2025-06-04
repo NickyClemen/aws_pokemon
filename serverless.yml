@@ -1,0 +1,69 @@
+service: pokeapi-lambda
+
+plugins:
+  - serverless-dynamodb-local
+  - serverless-offline
+
+custom:
+  dynamodb:
+    stages:
+      - dev
+    inMemory: true
+    port: 8000
+    migrate: true
+    onStart: true
+
+provider:
+  name: aws
+  runtime: nodejs22.x
+  region: us-east-1
+  environment:
+    POKEAPI_URL: https://pokeapi.co/api/v2/pokemon
+    DYNAMO_ENDPOINT: http://localhost:8000
+    POKEMON_TABLE: searchedPokemonsTable
+
+functions:
+  getPokemonByName:
+    handler: src/lambdas/getPokemonByName/handler.getPokemonByName
+    events:
+      - httpApi:
+          method: GET
+          path: /pokemons/{pokemonName}
+          authorizers:
+            name: pathParameterValidator
+          request:
+            parameters:
+              paths:
+                pokemonName: true
+
+  managePokemons:
+    handler: src/lambdas/managePokemons/handler.managePokemons
+    events:
+      - httpApi:
+          method: POST
+          path: /pokemons/{pokemonName}
+          authorizers:
+            name: pathParameterValidator
+          request:
+            parameters:
+              paths:
+                pokemonName: true
+
+  validatePathParameters:
+    handler: src/lambdas/validatePathParameters/handler.validatePathParameters
+
+resources:
+  Resources:
+    searchedPokemonsTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: searchedPokemonsTable
+        AttributeDefinitions:
+          - AttributeName: name
+            AttributeType: S
+        KeySchema:
+          - AttributeName: name
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
