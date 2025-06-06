@@ -1,7 +1,7 @@
 import { event } from '../../mocks/event.mock';
 
 import { FetchPokemonService } from '../../../src/lambdas/managePokemons/application/fetchPokemonService';
-import { PokemonService } from '../../../src/features/pokemon/useCases/pokemonService';
+import { PokemonService } from '../../../src/features/pokemon/useCases/pokemon.service';
 import { ManagePokemonsController } from '../../../src/lambdas/managePokemons/infraestructure/managePokemonController';
 import { PutPokemonService } from '../../../src/lambdas/managePokemons/application/putPokemonService';
 import { DynamoClientWrapper } from '../../../src/shared/aws/infraestructure/dynamoClient';

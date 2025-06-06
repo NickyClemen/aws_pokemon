@@ -1,7 +1,7 @@
-import { HttpException } from './exceptions/httpException';
+import { HttpException } from '../../exceptions/httpException';
 
 export class FetchApi {
-  constructor(private readonly baseURL: string) { }
+  constructor(private readonly baseURL: string) {}
 
   async get(path: string): Promise<Response> {
     try {

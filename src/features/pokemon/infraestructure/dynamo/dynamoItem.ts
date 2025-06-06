@@ -1,4 +1,4 @@
-import { ValueObject } from './valueObject';
+import { ValueObject } from '../../../pokemon/domain/valueObject';
 
 interface DynamoTypeParams<T> {
   table: string;

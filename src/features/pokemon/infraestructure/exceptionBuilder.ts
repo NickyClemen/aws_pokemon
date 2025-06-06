@@ -1,8 +1,8 @@
-import { StatusResponse } from './statusResponse';
-import { Exception } from './exception';
+import { StatusResponse } from './adapters/http/statusResponse';
+import { Exception } from './exceptions/exception';
 
 export class ExceptionBuilder {
-  constructor(private readonly error: Exception) { }
+  constructor(private readonly error: Exception) {}
 
   buildError() {
     if (this.validationType()) {

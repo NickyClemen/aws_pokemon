@@ -1,7 +1,4 @@
-import {
-  AwsClientExceptionResponse,
-  Exception,
-} from './exception';
+import { AwsClientExceptionResponse, Exception } from './exception';
 import { ErrorCodes } from './errorCodes.enum';
 
 export class AwsClientException extends Exception {

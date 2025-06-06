@@ -5,17 +5,18 @@ import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
 
 import middy from '@middy/core';
 
-import { FetchPokemonService } from '../../../useCases/fetchPokemonService';
-import { PutPokemonService } from '../../../useCases/putPokemonService';
+import { IPokemon } from '../../../domain/pokemon';
+
+import { FetchPokemonService } from '../../../useCases/fetchPokemon.service';
+import { PutPokemonService } from '../../../useCases/putPokemon.service';
+import { PokemonService } from '../../../useCases/pokemon.service';
+
 import { ManagePokemonsController } from '../../adapters/http/controllers/managePokemon.controller';
+import { PathParametersValidator } from '../../adapters/http/middlewares/pathParameters.validator';
 
-import { IPokemon } from '../../contexts/pokemon/domain/pokemon';
-import { PokemonService } from '../../contexts/pokemon/application/pokemonService';
-
-import { IRepository } from '../../shared/aws/domain/repository';
-import { DynamoClientWrapper } from '../../shared/aws/infraestructure/dynamoClient';
-import { DynamoRepository } from '../../shared/aws/infraestructure/dynamoRepository';
-import { PathParametersValidator } from '../../shared/apis/infraestructure/middlewares/pathParametersValidator/pathParametersValidator';
+import { IRepository } from '../../dynamo/repository';
+import { DynamoClientWrapper } from '../../dynamo/dynamoClientWrapper';
+import { DynamoRepository } from '../../dynamo/dynamoRepository';
 
 const dynamoClient: DynamoClientWrapper = new DynamoClientWrapper();
 const pokemonRepository: IRepository<IPokemon> = new DynamoRepository<IPokemon>(
@@ -32,7 +33,7 @@ const putPokemonsService: PutPokemonService = new PutPokemonService(
 const logger = new Logger();
 const pathParametersValidator = new PathParametersValidator(logger);
 
-export async function managePokemonsHandler(event: Event, context: Context) {
+export async function lambdaHandler(event: Event, context: Context) {
   const managePokemonsController = new ManagePokemonsController(
     event,
     logger,
@@ -43,6 +44,6 @@ export async function managePokemonsHandler(event: Event, context: Context) {
   return await managePokemonsController.execute();
 }
 
-export const managePokemons = middy(managePokemonsHandler)
+export const managePokemons = middy(lambdaHandler)
   .use(injectLambdaContext(logger))
   .use(pathParametersValidator.execute());

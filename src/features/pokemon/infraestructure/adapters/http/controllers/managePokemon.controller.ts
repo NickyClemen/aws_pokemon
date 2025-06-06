@@ -1,12 +1,12 @@
 import { Event } from 'aws-lambda';
-
-import { FetchPokemonService } from '../../../../useCases/fetchPokemonService';
-import { PutPokemonService } from '../../../../useCases/putPokemonService';
-import { IPokemon } from '../../../contexts/pokemon/domain/pokemon';
-import { StatusResponse } from '../../../shared/apis/domain/statusResponse';
-import { Exception } from '../../../../src/shared/apis/domain/exceptions/exception';
-import { ExceptionBuilder } from '../../../../src/shared/apis/domain/exceptions/exceptionBuilder';
 import { Logger } from '@aws-lambda-powertools/logger';
+
+import { FetchPokemonService } from '../../../../useCases/fetchPokemon.service';
+import { PutPokemonService } from '../../../../useCases/putPokemon.service';
+import { IPokemon } from '../../../../domain/pokemon';
+import { StatusResponse } from '../statusResponse';
+import { Exception } from '../../../exceptions/exception';
+import { ExceptionBuilder } from '../../../exceptionBuilder';
 
 export class ManagePokemonsController {
   constructor(
@@ -14,7 +14,7 @@ export class ManagePokemonsController {
     private readonly logger: Logger,
     private readonly fetchPokemonService: FetchPokemonService,
     private readonly putPokemonsService: PutPokemonService,
-  ) { }
+  ) {}
 
   async execute() {
     try {

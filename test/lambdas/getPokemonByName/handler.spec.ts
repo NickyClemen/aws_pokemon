@@ -1,7 +1,7 @@
 import { event } from '../../mocks/event.mock';
 
 import { GetPokemonByNameController } from '../../../src/lambdas/getPokemonByName/infraestructure/getPokemonByName.controller';
-import { PokemonService } from '../../../src/features/pokemon/useCases/pokemonService';
+import { PokemonService } from '../../../src/features/pokemon/useCases/pokemon.service';
 import { IPokemon } from '../../../src/features/pokemon/domain/pokemon';
 import { GetPokemonService } from '../../../src/lambdas/getPokemonByName/application/getPokemon.service';
 import { IRepository } from '../../../src/shared/aws/domain/repository';

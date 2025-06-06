@@ -1,6 +1,6 @@
 import { PutItemCommandOutput } from '@aws-sdk/client-dynamodb';
 
-import { ValueObject } from './valueObject';
+import { ValueObject } from '../../../pokemon/domain/valueObject';
 import { ResponseMapper } from './responseMapper';
 
 export class PutDynamoResponse<T> extends ValueObject<PutItemCommandOutput> {

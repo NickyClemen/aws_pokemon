@@ -5,24 +5,25 @@ import { Logger } from '@aws-lambda-powertools/logger';
 
 import { Event } from 'aws-lambda';
 
-import { pokemonPathParametersSchema } from '../schemas/pokemonPathParameters';
+import { pokemonPathParametersSchema } from '../schemas/pokemonPathParameters.schema';
 
-import { StatusResponse } from '../../../../domain/exceptions/statusResponse';
-import { ExceptionBuilder } from '../../../../domain/exceptions/exceptionBuilder';
-import { Exception } from '../../../../domain/exceptions/exception';
-import { HttpException } from 'src/features/pokemon/domain/exceptions/httpException';
+import { ExceptionBuilder } from '../../../exceptionBuilder';
+import { Exception } from '../../../exceptions/exception';
+import { HttpException } from 'src/features/pokemon/infraestructure/exceptions/httpException';
 
 export class PathParametersValidator {
   private readonly schemas: Joi.ObjectSchema<any>[] = [
     pokemonPathParametersSchema,
   ];
 
-  constructor(private logger: Logger) { }
+  constructor(private logger: Logger) {}
 
   execute(): MiddlewareObj<Event> {
     const before: MiddlewareObj<Event>['before'] = async (request) => {
       const { pokemonName } = request.event.pathParameters || {};
-      this.logger.info('PathParametersValidator', { params: request.event.pathParameters });
+      this.logger.info('PathParametersValidator', {
+        params: request.event.pathParameters,
+      });
 
       this.ifExistsPathParameters(request);
       this.validatePathParameters(request);
@@ -58,10 +59,7 @@ export class PathParametersValidator {
         },
       });
 
-      throw new HttpException(
-        'pokemonName is required',
-        422,
-      );
+      throw new HttpException('pokemonName is required', 422);
     }
   }
 
@@ -78,10 +76,7 @@ export class PathParametersValidator {
           },
         });
 
-        throw new HttpException(
-          error.message,
-          422,
-        );
+        throw new HttpException(error.message, 422);
       }
     }
   }

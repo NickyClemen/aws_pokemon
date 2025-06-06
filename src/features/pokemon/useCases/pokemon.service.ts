@@ -1,6 +1,5 @@
 import { IPokemon } from '../domain/pokemon';
-
-import { IRepository } from '../../../shared/aws/domain/repository';
+import { IRepository } from '../infraestructure/dynamo/repository';
 
 export class PokemonService {
   constructor(private readonly repository: IRepository<IPokemon>) {

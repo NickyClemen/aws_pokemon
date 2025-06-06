@@ -1,4 +1,4 @@
-import { LambdaClienWrapper } from '../../../shared/aws/infraestructure/lambdaClient';
+import { LambdaClienWrapper } from '../lambda/lambdaClientWrapper';
 
 export class LambdaInvokerService {
   constructor(

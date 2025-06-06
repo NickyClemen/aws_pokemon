@@ -1,5 +1,5 @@
 import { GetItemCommandOutput } from '@aws-sdk/client-dynamodb';
-import { ValueObject } from './valueObject';
+import { ValueObject } from '../../../pokemon/domain/valueObject';
 import { ResponseMapper } from './responseMapper';
 
 export class GetDynamoResponse<T> extends ValueObject<GetItemCommandOutput> {

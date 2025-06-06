@@ -1,9 +1,5 @@
-import {
-  IPokemon,
-  PokemonMapper,
-  PokemonProps,
-} from '../domain/pokemon';
-import { FetchApi } from '../domain/fetchApi';
+import { IPokemon, PokemonMapper, PokemonProps } from '../domain/pokemon';
+import { FetchApi } from '../infraestructure/adapters/http/fetchApi';
 
 export class FetchPokemonService {
   private readonly pokeApiBaseURL: string = process.env.POKEAPI_BASE_URL;

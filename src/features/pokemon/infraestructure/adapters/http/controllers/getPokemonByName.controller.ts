@@ -1,17 +1,18 @@
 import { Event } from 'aws-lambda';
 
 import { GetPokemonService } from '../../../../useCases/getPokemon.service';
-import { IPokemon } from '../../../contexts/pokemon/domain/pokemon';
-import { AwsClientException } from '../../../shared/aws/domain/exceptions/awsClient.exception';
-import { DynamoClientException } from '../../../shared/aws/domain/exceptions/dynamoClient.exception';
-import { LambdaInvokerService } from '../application/lambdaInvoker.service';
+import { IPokemon } from '../../../../domain/pokemon';
+import { AwsClientException } from '../../../exceptions/awsClient.exception';
+import { DynamoClientException } from '../../../exceptions/dynamoClient.exception';
+import { LambdaInvokerService } from '../../../lambda/lambdaInvoker.service';
+import { StatusResponse } from '../statusResponse';
 
 export class GetPokemonByNameController {
   constructor(
     private readonly event: Event,
     private readonly getPokemonsService: GetPokemonService,
     private readonly lambdaInvokerService: LambdaInvokerService,
-  ) { }
+  ) {}
 
   async execute() {
     try {

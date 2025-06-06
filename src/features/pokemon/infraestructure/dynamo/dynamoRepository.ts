@@ -3,19 +3,19 @@ import {
   PutItemCommandOutput,
 } from '@aws-sdk/client-dynamodb';
 
-import { DynamoClientWrapper } from './dynamoClient';
+import { DynamoClientWrapper } from './dynamoClientWrapper';
 
-import { DynamoItem } from '../../../../shared/aws/domain/dynamoItem';
-import { ResponseMapper } from '../../domain/responseMapper';
-import { GetDynamoResponse } from '../../../../shared/aws/domain/getDynamoResponse';
-import { PutDynamoResponse } from '../../../../shared/aws/domain/putDynamoResponse';
-import { IRepository } from '../../../../shared/aws/domain/repository';
+import { DynamoItem } from './dynamoItem';
+import { ResponseMapper } from './responseMapper';
+import { GetDynamoResponse } from './getDynamoResponse';
+import { PutDynamoResponse } from './putDynamoResponse';
+import { IRepository } from './repository';
 
 export class DynamoRepository<T> implements IRepository<T> {
   constructor(
     private readonly dynamoDb: DynamoClientWrapper,
     private readonly table,
-  ) { }
+  ) {}
 
   async getItem(input: T): Promise<ResponseMapper<T>> {
     const getItem = new DynamoItem<T>({

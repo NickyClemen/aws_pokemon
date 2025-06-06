@@ -4,7 +4,8 @@ import {
   LambdaClient,
 } from '@aws-sdk/client-lambda';
 
-import { AwsClientException } from '../domain/exceptions/awsClient.exception';
+import { AwsClientException } from '../exceptions/awsClient.exception';
+import { Exception } from '../exceptions/exception';
 
 export class LambdaClienWrapper {
   private readonly lamdbaClient: LambdaClient = new LambdaClient({
@@ -16,7 +17,7 @@ export class LambdaClienWrapper {
       const invokeCommand: InvokeCommand = new InvokeCommand(input);
       return this.lamdbaClient.send(invokeCommand);
     } catch (error: unknown) {
-      throw new AwsClientException(error);
+      throw new AwsClientException(error as Exception);
     }
   }
 }

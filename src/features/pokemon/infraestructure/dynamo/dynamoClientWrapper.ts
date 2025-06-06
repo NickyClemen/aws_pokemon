@@ -7,8 +7,9 @@ import {
   PutItemCommandOutput,
 } from '@aws-sdk/client-dynamodb';
 
-import { DynamoClientException } from '../domain/exceptions/dynamoClient.exception';
-import { AwsClientException } from '../domain/exceptions/awsClient.exception';
+import { DynamoClientException } from '../exceptions/dynamoClient.exception';
+import { AwsClientException } from '../exceptions/awsClient.exception';
+import { Exception } from '../exceptions/exception';
 
 export class DynamoClientWrapper {
   private readonly isTest = process.env.JEST_WORKER_ID;
@@ -30,7 +31,7 @@ export class DynamoClientWrapper {
         throw new DynamoClientException(error);
       }
 
-      throw new AwsClientException(error);
+      throw new AwsClientException(error as Exception);
     }
   }
 
@@ -43,7 +44,7 @@ export class DynamoClientWrapper {
         throw new DynamoClientException(error);
       }
 
-      throw new AwsClientException(error);
+      throw new AwsClientException(error as Exception);
     }
   }
 }

@@ -22,7 +22,7 @@ provider:
 
 functions:
   getPokemonByName:
-    handler: src/lambdas/getPokemonByName/handler.getPokemonByName
+    handler: src/features/pokemon/infraestructure/lambda/handlers/getPokemonByName.getPokemonByName
 
     events:
       - httpApi:
@@ -30,7 +30,7 @@ functions:
           path: /pokemons/{pokemonName}
 
   managePokemons:
-    handler: src/lambdas/managePokemons/handler.managePokemons
+    handler: src/features/pokemon/infraestructure/lambda/handlers/managePokemons.managePokemons
     environment:
       POKEAPI_BASE_URL: https://pokeapi.co/api/v2
       POKEMON_TABLE_NAME: ${self:service}-${self:provider.stage}-searchedPokemonsTable
