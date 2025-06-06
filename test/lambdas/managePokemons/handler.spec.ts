@@ -1,13 +1,13 @@
 import { event } from '../../mocks/event.mock';
 
 import { FetchPokemonService } from '../../../src/lambdas/managePokemons/application/fetchPokemonService';
-import { PokemonService } from '../../../src/contexts/pokemon/application/pokemonService';
+import { PokemonService } from '../../../src/features/pokemon/useCases/pokemonService';
 import { ManagePokemonsController } from '../../../src/lambdas/managePokemons/infraestructure/managePokemonController';
 import { PutPokemonService } from '../../../src/lambdas/managePokemons/application/putPokemonService';
 import { DynamoClientWrapper } from '../../../src/shared/aws/infraestructure/dynamoClient';
-import { IPokemon } from '../../../src/contexts/pokemon/domain/pokemon';
+import { IPokemon } from '../../../src/features/pokemon/domain/pokemon';
 
-import { DynamoRepository } from '../../../src/shared/aws/infraestructure/dynamoRepository';
+import { DynamoRepository } from '../../../src/features/pokemon/infraestructure/dynamo/dynamoRepository';
 import { IRepository } from '../../../src/shared/aws/domain/repository';
 
 describe('ManagePokemonsController', () => {
