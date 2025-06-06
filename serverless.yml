@@ -16,48 +16,36 @@ custom:
 provider:
   name: aws
   runtime: nodejs22.x
-  region: us-east-1
-  environment:
-    POKEAPI_URL: https://pokeapi.co/api/v2/pokemon
-    DYNAMO_ENDPOINT: http://localhost:8000
-    POKEMON_TABLE: searchedPokemonsTable
+  region: ${opt:region, 'us-east-1'}
+  stage: ${opt:stage, 'dev'}
+  profile: ${aws:profile, 'default'}
 
 functions:
   getPokemonByName:
     handler: src/lambdas/getPokemonByName/handler.getPokemonByName
+
     events:
       - httpApi:
           method: GET
           path: /pokemons/{pokemonName}
-          authorizers:
-            name: pathParameterValidator
-          request:
-            parameters:
-              paths:
-                pokemonName: true
 
   managePokemons:
     handler: src/lambdas/managePokemons/handler.managePokemons
+    environment:
+      POKEAPI_BASE_URL: https://pokeapi.co/api/v2
+      POKEMON_TABLE_NAME: ${self:service}-${self:provider.stage}-searchedPokemonsTable
+    role: managePokemonsIamRole
     events:
       - httpApi:
           method: POST
           path: /pokemons/{pokemonName}
-          authorizers:
-            name: pathParameterValidator
-          request:
-            parameters:
-              paths:
-                pokemonName: true
-
-  validatePathParameters:
-    handler: src/lambdas/validatePathParameters/handler.validatePathParameters
 
 resources:
   Resources:
     searchedPokemonsTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: searchedPokemonsTable
+        TableName: ${self:service}-${self:provider.stage}-searchedPokemonsTable
         AttributeDefinitions:
           - AttributeName: name
             AttributeType: S
@@ -67,3 +55,38 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+
+    managePokemonsIamRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:service}-${self:provider.stage}-managePokemons-iamRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action:
+                - sts:AssumeRole
+        Policies:
+          - PolicyName: DynamoDBAccessPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:PutItem
+                    - dynamodb:GetItem
+                  Resource: !GetAtt searchedPokemonsTable.Arn
+
+          - PolicyName: CloudWatchLogsAccess
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource: '*'

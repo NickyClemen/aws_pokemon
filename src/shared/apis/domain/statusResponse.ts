@@ -1,4 +1,4 @@
-class StatusResponse<T> {
+export class StatusResponse<T> {
   constructor(
     private readonly statusCode: number,
     private readonly body: T | string,
@@ -9,7 +9,7 @@ class StatusResponse<T> {
     return newResponse.toResponse();
   }
 
-  toResponse() {
+  private toResponse() {
     return {
       statusCode: this.statusCode,
       body: JSON.stringify(this.body),

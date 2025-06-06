@@ -1,21 +1,27 @@
 import { DynamoDBServiceException } from '@aws-sdk/client-dynamodb';
 
 import { ErrorCodes } from './errorCodes.enum';
+import {
+  DynamoClientExceptionResponse,
+  Exception,
+} from '../../../../shared/apis/domain/exceptions/exception';
 
-export class DynamoClientException extends Error {
-  constructor(private readonly error: DynamoDBServiceException) {
-    super();
+export class DynamoClientException extends Exception {
+  private readonly metadata;
+
+  constructor(error: DynamoDBServiceException) {
+    const { name, message } = error;
+    super(message, name);
+    this.metadata = error.$metadata;
   }
 
-  getError() {
-    const { name, message, $metadata } = this.error;
-
+  getError(): DynamoClientExceptionResponse {
     return {
-      type: name,
-      message,
-      requestId: $metadata.requestId,
-      statusCode: $metadata.httpStatusCode,
-      statusName: ErrorCodes[name],
+      type: this.name,
+      message: this.message,
+      requestId: this.metadata.requestId,
+      statusCode: this.metadata.httpStatusCode,
+      statusName: ErrorCodes[this.name],
     };
   }
 }

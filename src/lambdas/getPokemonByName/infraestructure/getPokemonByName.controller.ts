@@ -1,7 +1,7 @@
 import { Event } from 'aws-lambda';
 
 import { GetPokemonService } from '../application/getPokemon.service';
-import { Pokemon } from '../../../contexts/pokemon/domain/pokemon';
+import { IPokemon } from '../../../contexts/pokemon/domain/pokemon';
 import { AwsClientException } from '../../../shared/aws/domain/exceptions/awsClient.exception';
 import { DynamoClientException } from '../../../shared/aws/domain/exceptions/dynamoClient.exception';
 import { LambdaInvokerService } from '../application/lambdaInvoker.service';
@@ -18,7 +18,7 @@ export class GetPokemonByNameController {
       const { pokemonName } = this.event.pathParameters || {};
       const getPokemon = await this.getPokemonsService.execute({
         name: pokemonName,
-      } as Partial<Pokemon>);
+      } as Partial<IPokemon>);
 
       if (getPokemon) {
         StatusResponse.buildResponse({

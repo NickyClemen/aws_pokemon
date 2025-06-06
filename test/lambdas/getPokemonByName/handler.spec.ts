@@ -2,7 +2,7 @@ import { event } from '../../mocks/event.mock';
 
 import { GetPokemonByNameController } from '../../../src/lambdas/getPokemonByName/infraestructure/getPokemonByName.controller';
 import { PokemonService } from '../../../src/contexts/pokemon/application/pokemonService';
-import { Pokemon } from '../../../src/contexts/pokemon/domain/pokemon';
+import { IPokemon } from '../../../src/contexts/pokemon/domain/pokemon';
 import { GetPokemonService } from '../../../src/lambdas/getPokemonByName/application/getPokemon.service';
 import { IRepository } from '../../../src/shared/aws/domain/repository';
 import { DynamoClientWrapper } from '../../../src/shared/aws/infraestructure/dynamoClient';
@@ -10,10 +10,8 @@ import { DynamoRepository } from '../../../src/shared/aws/infraestructure/dynamo
 
 describe('GetPokemonByNameController', () => {
   const dynamoClient: DynamoClientWrapper = new DynamoClientWrapper();
-  const pokemonRepository: IRepository<Pokemon> = new DynamoRepository<Pokemon>(
-    dynamoClient,
-    process.env.POKEMON_TABLE,
-  );
+  const pokemonRepository: IRepository<IPokemon> =
+    new DynamoRepository<IPokemon>(dynamoClient, process.env.POKEMON_TABLE);
 
   const pokemonService = new PokemonService(pokemonRepository);
 

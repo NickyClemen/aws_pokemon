@@ -2,12 +2,16 @@ import { Event } from 'aws-lambda';
 
 import { FetchPokemonService } from '../application/fetchPokemonService';
 import { PutPokemonService } from '../application/putPokemonService';
-import { AwsClientException } from '../../../shared/aws/domain/exceptions/awsClient.exception';
-import { DynamoClientException } from '../../../shared/aws/domain/exceptions/dynamoClient.exception';
+import { IPokemon } from '../../../contexts/pokemon/domain/pokemon';
+import { StatusResponse } from '../../../shared/apis/domain/statusResponse';
+import { Exception } from '../../../../src/shared/apis/domain/exceptions/exception';
+import { ExceptionBuilder } from '../../../../src/shared/apis/domain/exceptions/exceptionBuilder';
+import { Logger } from '@aws-lambda-powertools/logger';
 
 export class ManagePokemonsController {
   constructor(
     private readonly event: Event,
+    private readonly logger: Logger,
     private readonly fetchPokemonService: FetchPokemonService,
     private readonly putPokemonsService: PutPokemonService,
   ) {}
@@ -15,34 +19,29 @@ export class ManagePokemonsController {
   async execute() {
     try {
       const { pokemonName } = this.event.pathParameters || {};
-      const fetchedPokemon =
+      const fetchedPokemon: IPokemon =
         await this.fetchPokemonService.execute(pokemonName);
+
+      this.logger.info('ManagePokemonsController', { ...fetchedPokemon });
+
       await this.putPokemonsService.execute(fetchedPokemon);
 
-      return {
+      return StatusResponse.buildResponse({
         statusCode: 201,
-        body: JSON.stringify({
-          fetchedPokemon,
-        }),
-      };
-    } catch (error) {
-      const validatedError: boolean =
-        error instanceof AwsClientException ||
-        error instanceof DynamoClientException;
+        body: {
+          ...fetchedPokemon,
+        },
+      });
+    } catch (error: unknown) {
+      const exceptionBuilder: ExceptionBuilder = new ExceptionBuilder(
+        error as Exception,
+      );
 
-      if (validatedError) {
-        return {
-          statusCode: error.getError().statusCode || 500,
-          body: JSON.stringify(error.getError()),
-        };
-      }
+      this.logger.error('ManagePokemonsController', {
+        ...exceptionBuilder.buildError(),
+      });
 
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          error,
-        }),
-      };
+      return exceptionBuilder.buildError();
     }
   }
 }

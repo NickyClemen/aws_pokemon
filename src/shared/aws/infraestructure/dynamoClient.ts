@@ -19,7 +19,7 @@ export class DynamoClientWrapper {
       region: 'local-env',
     }),
     region: process.env.REGION,
-    endpoint: `${process.env.DYNAMO_ENDPOINT}`,
+    // endpoint: `${process.env.DYNAMO_ENDPOINT}`,
   });
 
   async getItem(input): Promise<GetItemCommandOutput> {

@@ -1,17 +1,21 @@
+import {
+  AwsClientExceptionResponse,
+  Exception,
+} from '../../../../shared/apis/domain/exceptions/exception';
 import { ErrorCodes } from './errorCodes.enum';
 
-export class AwsClientException extends Error {
-  constructor(private readonly error) {
-    super();
+export class AwsClientException extends Exception {
+  constructor(error: Error) {
+    const { name, message } = error;
+    super(message, name);
   }
 
-  getError() {
-    const { name, message } = this.error;
+  getError(): AwsClientExceptionResponse {
     return {
-      type: name,
-      message,
-      statusName: ErrorCodes[name] ?? 'BAD_REQUEST',
-      statusCode: name ?? 500,
+      type: this.name,
+      message: this.message,
+      statusName: ErrorCodes[this.name] ?? 'BAD_REQUEST',
+      statusCode: this.name ?? 500,
     };
   }
 }

@@ -5,17 +5,15 @@ import { PokemonService } from '../../../src/contexts/pokemon/application/pokemo
 import { ManagePokemonsController } from '../../../src/lambdas/managePokemons/infraestructure/managePokemonController';
 import { PutPokemonService } from '../../../src/lambdas/managePokemons/application/putPokemonService';
 import { DynamoClientWrapper } from '../../../src/shared/aws/infraestructure/dynamoClient';
-import { Pokemon } from '../../../src/contexts/pokemon/domain/pokemon';
+import { IPokemon } from '../../../src/contexts/pokemon/domain/pokemon';
 
 import { DynamoRepository } from '../../../src/shared/aws/infraestructure/dynamoRepository';
 import { IRepository } from '../../../src/shared/aws/domain/repository';
 
 describe('ManagePokemonsController', () => {
   const dynamoClient: DynamoClientWrapper = new DynamoClientWrapper();
-  const pokemonRepository: IRepository<Pokemon> = new DynamoRepository<Pokemon>(
-    dynamoClient,
-    process.env.POKEMON_TABLE,
-  );
+  const pokemonRepository: IRepository<IPokemon> =
+    new DynamoRepository<IPokemon>(dynamoClient, process.env.POKEMON_TABLE);
 
   const pokemonService = new PokemonService(pokemonRepository);
 

@@ -14,7 +14,7 @@ export class HttpException extends Exception {
     return {
       name: this.name,
       statusCode: this.statusCode,
-      message: JSON.parse(this.message),
+      message: this.message,
     };
   }
 }
