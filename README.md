@@ -1,4 +1,4 @@
-### AWS Pókemon API
+# AWS Pókemon API
 
 API Restful dedicada a la consulta de pokemons por nombre.
 
@@ -14,13 +14,14 @@ API Restful dedicada a la consulta de pokemons por nombre.
 
 El módulo se encuentra compuesto por los siguientes componentes:
 
-Middlewares
+### Middlewares
 Validación de parámetros de la request. No acepta valores vacíos ni alfanuméricos. Esto se realiza utilizando Joi.
 
-DynamoDB
+### DynamoDB
 Base de datos searchedPokemons.
 
-Lambdas
+### Lambdas
+
 getPokemonByName
 Lambda que expone un endpoint HTTP/GET. Recibe por pathParameter el nombre del pókemon, con el cuál ejecuta las siguientes operaciones:
 - Permisos de lectura sobre la base de datos de DynamoDB.
