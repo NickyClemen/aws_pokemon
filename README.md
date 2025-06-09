@@ -1,4 +1,4 @@
-AWS Pókemon API
+### AWS Pókemon API
 
 API Restful dedicada a la consulta de pokemons por nombre.
 
@@ -10,11 +10,7 @@ API Restful dedicada a la consulta de pokemons por nombre.
 | AWS             | Lambda, API Gateway, DynamoDB, CloudWatch                                              |
 | Testing         | Postman, Jest                                                                  |
                                                     
-Tecnologías utilizadas
-NodeJS + Typescript
-Serverless Framework
-AWS (Lambda, API GTW, DynamoDB, CloudWatch)
-Postman
+## Componentes
 
 El módulo se encuentra compuesto por los siguientes componentes:
 
