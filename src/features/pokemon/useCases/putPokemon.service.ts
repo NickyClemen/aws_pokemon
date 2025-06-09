@@ -7,7 +7,6 @@ export class PutPokemonService {
   async execute(pokemonData: IPokemon) {
     return await this.pokemonService.putPokemon({
       ...pokemonData,
-      searchCounter: String(Number(pokemonData?.searchCounter) + 1) || '0',
     });
   }
 }

@@ -23,6 +23,10 @@ provider:
 functions:
   getPokemonByName:
     handler: src/features/pokemon/infraestructure/lambda/handlers/getPokemonByName.getPokemonByName
+    role: getPokemonByNameIamRole
+    environment:
+      POKEMON_TABLE_NAME: ${self:service}-${self:provider.stage}-searchedPokemonsTable
+      MANAGE_POKEMONS_LAMBDA: ${self:service}-${self:provider.stage}-managePokemons
 
     events:
       - httpApi:
@@ -31,10 +35,10 @@ functions:
 
   managePokemons:
     handler: src/features/pokemon/infraestructure/lambda/handlers/managePokemons.managePokemons
+    role: managePokemonsIamRole
     environment:
       POKEAPI_BASE_URL: https://pokeapi.co/api/v2
       POKEMON_TABLE_NAME: ${self:service}-${self:provider.stage}-searchedPokemonsTable
-    role: managePokemonsIamRole
     events:
       - httpApi:
           method: POST
@@ -55,6 +59,50 @@ resources:
         ProvisionedThroughput:
           ReadCapacityUnits: 1
           WriteCapacityUnits: 1
+
+    getPokemonByNameIamRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:service}-${self:provider.stage}-getPokemonByName-iamRole
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+              Action:
+                - sts:AssumeRole
+        Policies:
+          - PolicyName: InvokeLambdaPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - lambda:InvokeFunction
+                  Resource:
+                    - !Sub 'arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${self:service}-${self:provider.stage}-managePokemons'
+
+          - PolicyName: DynamoDBAccessPolicy
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - dynamodb:GetItem
+                  Resource: !GetAtt searchedPokemonsTable.Arn
+
+          - PolicyName: CloudWatchLogsAccess
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:PutLogEvents
+                  Resource: '*'
 
     managePokemonsIamRole:
       Type: AWS::IAM::Role
@@ -77,7 +125,6 @@ resources:
                 - Effect: Allow
                   Action:
                     - dynamodb:PutItem
-                    - dynamodb:GetItem
                   Resource: !GetAtt searchedPokemonsTable.Arn
 
           - PolicyName: CloudWatchLogsAccess

@@ -15,7 +15,9 @@ export class GetDynamoResponse<T> extends ValueObject<GetItemCommandOutput> {
       requestId: $metadata.requestId,
       item: Object.entries(Item).reduce((accum, entry) => {
         const [key, value] = entry;
-        accum[key] = key === 'buyer' ? JSON.parse(value.S) : value.S;
+        accum[key] = ['stats', 'types'].includes(key)
+          ? JSON.parse(value.S)
+          : value.S;
         return accum;
       }, {} as T),
     };

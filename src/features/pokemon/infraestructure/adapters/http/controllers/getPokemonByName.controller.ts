@@ -1,59 +1,41 @@
 import { Event } from 'aws-lambda';
+import { Logger } from '@aws-lambda-powertools/logger';
 
-import { GetPokemonService } from '../../../../useCases/getPokemon.service';
-import { IPokemon } from '../../../../domain/pokemon';
-import { AwsClientException } from '../../../exceptions/awsClient.exception';
-import { DynamoClientException } from '../../../exceptions/dynamoClient.exception';
-import { LambdaInvokerService } from '../../../lambda/lambdaInvoker.service';
+import { PokemonFinderService } from '../../../../useCases/pokemonFinder.service';
+
+import { Exception } from '../../../exceptions/exception';
+import { ExceptionBuilder } from '../../../exceptionBuilder';
+
 import { StatusResponse } from '../statusResponse';
 
 export class GetPokemonByNameController {
   constructor(
     private readonly event: Event,
-    private readonly getPokemonsService: GetPokemonService,
-    private readonly lambdaInvokerService: LambdaInvokerService,
+    private readonly logger: Logger,
+    private readonly pokemonFinderService: PokemonFinderService,
   ) {}
 
   async execute() {
     try {
       const { pokemonName } = this.event.pathParameters || {};
-      const getPokemon = await this.getPokemonsService.execute({
-        name: pokemonName,
-      } as Partial<IPokemon>);
+      this.logger.info('GetPokemonByNameController', { pokemonName });
 
-      if (getPokemon) {
-        StatusResponse.buildResponse({
-          statusCode: 200,
-          body: getPokemon,
-        });
-      }
-
-      const invokeLambda = await this.lambdaInvokerService.execute({
-        pokemonName,
-      });
-
-      StatusResponse.buildResponse({
-        statusCode: 200,
-        body: invokeLambda,
-      });
+      const { statusCode, body } =
+        await this.pokemonFinderService.execute(pokemonName);
+      return StatusResponse.buildResponse({ statusCode, body });
     } catch (error) {
-      const validatedError: boolean =
-        error instanceof AwsClientException ||
-        error instanceof DynamoClientException;
+      this.logger.error('GetPokemonByNameController', {
+        ...error.message,
+      });
+      const exceptionBuilder: ExceptionBuilder = new ExceptionBuilder(
+        error as Exception,
+      );
 
-      if (validatedError) {
-        return {
-          statusCode: error.getError().statusCode || 500,
-          body: JSON.stringify(error.getError()),
-        };
-      }
+      this.logger.error('GetPokemonByNameController', {
+        ...exceptionBuilder.buildError(),
+      });
 
-      return {
-        statusCode: 500,
-        body: JSON.stringify({
-          error,
-        }),
-      };
+      return exceptionBuilder.buildError();
     }
   }
 }

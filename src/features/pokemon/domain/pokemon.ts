@@ -23,34 +23,23 @@ export interface IPokemon {
   types: string[];
   image: string;
   createdAt: string;
-  searchCounter: string;
   stats: Stats;
 }
 
-class Pokemon implements IPokemon {
+export class Pokemon implements IPokemon {
   readonly id: string;
   readonly name: string;
   readonly types: string[];
   readonly image: string;
   readonly createdAt: string;
-  readonly searchCounter: string;
   readonly stats: Stats;
 
-  constructor({
-    id,
-    name,
-    types,
-    image,
-    createdAt,
-    searchCounter,
-    rawStats,
-  }: PokemonProps) {
+  constructor({ id, name, types, image, createdAt, rawStats }: PokemonProps) {
     this.id = id;
     this.name = name;
     this.types = types;
     this.image = image;
     this.createdAt = createdAt;
-    this.searchCounter = searchCounter;
     this.stats = this.mapStats(rawStats);
   }
 
@@ -73,7 +62,6 @@ class Pokemon implements IPokemon {
       types: this.types,
       image: this.image,
       createdAt: this.createdAt,
-      searchCounter: this.searchCounter,
       stats: this.stats,
     };
   }
@@ -86,7 +74,6 @@ export class PokemonMapper {
     types,
     image,
     createdAt,
-    searchCounter = '0',
     rawStats,
   }: PokemonProps): Pokemon {
     return new Pokemon({
@@ -95,7 +82,6 @@ export class PokemonMapper {
       types,
       image,
       createdAt,
-      searchCounter,
       rawStats,
     });
   }
