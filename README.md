@@ -18,21 +18,21 @@ El módulo se encuentra compuesto por los siguientes componentes:
 Validación de parámetros de la request. No acepta valores vacíos ni alfanuméricos. Esto se realiza utilizando Joi.
 
 ### DynamoDB
-Base de datos *searchedPokemons*.
+Base de datos **searchedPokemons**.
 
 ### Lambdas
 
-1. *getPokemonByName*
+#### getPokemonByName
 Lambda que expone un endpoint HTTP/GET. Recibe por pathParameter el nombre del pókemon, con el cuál ejecuta las siguientes operaciones:
-- Permisos de lectura sobre la base de datos de DynamoDB.
-    - Si encuentra el registro, lo retorna junto a un status 200.
-    - Si no lo encuentra, invoca la lambda managePokemons, retornando la 200 (junto al pokemon), 404 o el error correspondiente.
+  - Permisos de lectura sobre la base de datos de DynamoDB.
+      - Si encuentra el registro, lo retorna junto a un status 200.
+      - Si no lo encuentra, invoca la lambda managePokemons, retornando la 200 (junto al pokemon), 404 o el error correspondiente.
 
-2. *managePokemons*
-- Realiza consultas a PokeAPI (api externa) para obtener los datos de pokemons que no se encuntren guardados en DynamoDB.
-- Permisos de escritura sobre la base de datos.
-    - Se guardan las búsquedas realizadas a api externa.
-- Expone un endpoint HTTP/POST sólo con fines de cumplir con requerimientos.
+#### managePokemons
+Expone un endpoint HTTP/POST sólo con fines de cumplir con requerimientos.
+  - Realiza consultas a PokeAPI (api externa) para obtener los datos de pokemons que no se encuntren guardados en DynamoDB.
+  - Permisos de escritura sobre la base de datos.
+      - Se guardan las búsquedas realizadas a api externa.
 
 
 El proyecto cuenta con collection de Postman para realizar las pruebas funcionales en los siguientes endpoints:
