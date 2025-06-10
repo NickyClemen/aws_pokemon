@@ -37,8 +37,8 @@ Expone un endpoint HTTP/POST sólo con fines de cumplir con requerimientos.
 
 El proyecto cuenta con collection de Postman para realizar las pruebas funcionales en los siguientes endpoints:
 
-  GET https://mrnhdmiek8.execute-api.us-east-1.amazonaws.com/pokemons/{{pokemonName}}
-  POST https://mrnhdmiek8.execute-api.us-east-1.amazonaws.com/pokemons/{{pokemonName}}
+|  GET  | https://mrnhdmiek8.execute-api.us-east-1.amazonaws.com/pokemons/{{pokemonName}} |
+|  POST | https://mrnhdmiek8.execute-api.us-east-1.amazonaws.com/pokemons/{{pokemonName}} |
 
 También puede ejecutarse con cURL:
 
