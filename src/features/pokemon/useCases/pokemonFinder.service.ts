@@ -7,7 +7,7 @@ export class PokemonFinderService {
   constructor(
     private readonly getPokemonService: GetPokemonService,
     private readonly lambdaInvokerService: LambdaInvokerService,
-  ) { }
+  ) {}
 
   async execute(pokemonName: string) {
     const getPokemon: IPokemon = await this.getPokemonService.execute({

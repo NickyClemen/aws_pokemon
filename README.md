@@ -11,6 +11,10 @@ API Restful dedicada a la consulta de pokemons por nombre.
 | AWS             | Lambda, API Gateway, DynamoDB, CloudWatch |
 | Testing         | Postman, Jest                             |
 
+## Diagrama de Arquitectura
+
+![Pokemon API Diagrama](https://github.com/NickyClemen/aws_pokemon/blob/main/assets/pokemon.png?raw=true)
+
 ## Componentes
 
 El módulo se encuentra compuesto por los siguientes componentes:
