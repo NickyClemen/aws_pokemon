@@ -42,9 +42,9 @@ El proyecto cuenta con collection de Postman para realizar las pruebas funcional
 
 También puede ejecutarse con cURL:
 
-curl -X GET \
+```curl -X GET \
   https://mrnhdmiek8.execute-api.us-east-1.amazonaws.com/pokemons/pikachu \
-  -H "Content-Type: application/json" \
+  -H "Content-Type: application/json"```
 
 Prerequisitos
 AWS CLI (tener configurado un profile de AWS)
@@ -53,16 +53,16 @@ Serverless Framework
 Instalación
 
 En caso de no tener cargadas las credenciales de AWS
-aws configure 
+```aws configure```  
 
 Instalar dependencias
-yarn
-npm install
+```yarn```
+```npm install```
 
 Deploy
-sls deploy --aws-profile default --stage dev
+```sls deploy --aws-profile default --stage dev```
 
-Deuda técnica
+### Deuda técnica
 * Mapear los imports en tsconfig para mejorar legibilidad.
 * Agregar unit testing específicos por clase. Se realizaron los necesarios para comprobar la integreación (el testing del módulo se realizó de manera funcional con Postman).
 * Legbilidad del árbol de directorios. Aplicar correctamente patrones de arquitectura limpia.

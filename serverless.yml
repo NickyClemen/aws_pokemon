@@ -18,7 +18,7 @@ provider:
   runtime: nodejs22.x
   region: ${opt:region, 'us-east-1'}
   stage: ${opt:stage, 'dev'}
-  profile: ${aws:profile, 'default'}
+  # profile: ${aws:profile, 'default'}
 
 functions:
   getPokemonByName:
