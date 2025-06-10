@@ -1,4 +1,4 @@
-import { Event } from 'aws-lambda';
+import { APIGatewayProxyEvent } from 'aws-lambda';
 import { Logger } from '@aws-lambda-powertools/logger';
 
 import { PokemonFinderService } from '../../../../useCases/pokemonFinder.service';
@@ -10,7 +10,7 @@ import { StatusResponse } from '../statusResponse';
 
 export class GetPokemonByNameController {
   constructor(
-    private readonly event: Event,
+    private readonly event: APIGatewayProxyEvent,
     private readonly logger: Logger,
     private readonly pokemonFinderService: PokemonFinderService,
   ) {}
@@ -22,6 +22,7 @@ export class GetPokemonByNameController {
 
       const { statusCode, body } =
         await this.pokemonFinderService.execute(pokemonName);
+
       return StatusResponse.buildResponse({ statusCode, body });
     } catch (error) {
       this.logger.error('GetPokemonByNameController', {

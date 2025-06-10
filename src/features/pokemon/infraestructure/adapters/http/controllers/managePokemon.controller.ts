@@ -1,4 +1,4 @@
-import { Event } from 'aws-lambda';
+import { APIGatewayProxyEvent } from 'aws-lambda';
 import { Logger } from '@aws-lambda-powertools/logger';
 
 import { FetchPokemonService } from '../../../../useCases/fetchPokemon.service';
@@ -10,7 +10,7 @@ import { ExceptionBuilder } from '../../../exceptionBuilder';
 
 export class ManagePokemonsController {
   constructor(
-    private readonly event: Event,
+    private readonly event: APIGatewayProxyEvent,
     private readonly logger: Logger,
     private readonly fetchPokemonService: FetchPokemonService,
     private readonly putPokemonsService: PutPokemonService,

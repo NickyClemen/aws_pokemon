@@ -15,7 +15,18 @@ type Stats = {
   defense: number;
 };
 
-export type PokemonProps = Omit<IPokemon, 'stats'> & { rawStats: RawStats[] };
+type Types = {
+  slot: number;
+  type: {
+    name: string;
+    url: string;
+  };
+};
+
+export type PokemonProps = Omit<IPokemon, 'stats' | 'types'> & {
+  rawStats: RawStats[];
+  types: Types[];
+};
 
 export interface IPokemon {
   id: string;
@@ -37,10 +48,14 @@ export class Pokemon implements IPokemon {
   constructor({ id, name, types, image, createdAt, rawStats }: PokemonProps) {
     this.id = id;
     this.name = name;
-    this.types = types;
+    this.types = this.mapTypes(types);
     this.image = image;
     this.createdAt = createdAt;
     this.stats = this.mapStats(rawStats);
+  }
+
+  private mapTypes(types: Types[]): string[] {
+    return types.map((type: Types) => type.type.name);
   }
 
   private mapStats(rawStats: RawStats[]): Stats {

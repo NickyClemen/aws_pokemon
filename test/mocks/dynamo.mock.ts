@@ -1,12 +1,20 @@
-export const pokemonDynam = {
-  id: '550e8400-e29b-41d4-a716-446655440000',
-  name: 'bulbasaur',
-  types: ['grass', 'poison'],
-  image: 'https://raw.githubusercontent.com/.../bulbasaur.png',
+const pokemon = {
+  types: ['electric'],
+  createdAt: '2025-06-10T13:34:17.910Z',
   stats: {
-    hp: 45,
-    attack: 49,
-    defense: 49,
+    hp: 35,
+    attack: 55,
+    defense: 40,
   },
-  createdAt: '2023-11-21T10:30:00Z',
+  id: 'b3ab2331-f170-4366-b0d1-9920fb8bf5de',
+  name: 'pikachu',
+  image:
+    'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/25.png',
 };
+
+const putItemResponse = {
+  status: 201,
+  requestId: 'b3ab2331-f170-4366-b0d1-9920fb8bf5de',
+};
+
+export { pokemon, putItemResponse };

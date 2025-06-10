@@ -3,7 +3,7 @@ import Joi from 'joi';
 import { MiddlewareObj } from '@middy/core';
 import { Logger } from '@aws-lambda-powertools/logger';
 
-import { Event } from 'aws-lambda';
+import { APIGatewayProxyEvent } from 'aws-lambda';
 
 import { pokemonPathParametersSchema } from '../schemas/pokemonPathParameters.schema';
 
@@ -18,8 +18,10 @@ export class PathParametersValidator {
 
   constructor(private logger: Logger) {}
 
-  execute(): MiddlewareObj<Event> {
-    const before: MiddlewareObj<Event>['before'] = async (request) => {
+  execute(): MiddlewareObj<APIGatewayProxyEvent> {
+    const before: MiddlewareObj<APIGatewayProxyEvent>['before'] = async (
+      request,
+    ) => {
       const { pokemonName } = request.event.pathParameters || {};
       this.logger.info('PathParametersValidator', {
         params: request.event.pathParameters,
@@ -31,7 +33,9 @@ export class PathParametersValidator {
       request.event.pathParameters.pokemonName = pokemonName.toLowerCase();
     };
 
-    const onError: MiddlewareObj<Event>['onError'] = async (request) => {
+    const onError: MiddlewareObj<APIGatewayProxyEvent>['onError'] = async (
+      request,
+    ) => {
       const { error } = request;
       const exceptionBuilder: ExceptionBuilder = new ExceptionBuilder(
         error as Exception,

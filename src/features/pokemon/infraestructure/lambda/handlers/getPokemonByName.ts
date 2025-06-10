@@ -1,4 +1,4 @@
-import { Event, Context } from 'aws-lambda';
+import { APIGatewayProxyEvent, Context } from 'aws-lambda';
 
 import { Logger } from '@aws-lambda-powertools/logger';
 import { injectLambdaContext } from '@aws-lambda-powertools/logger/middleware';
@@ -45,7 +45,10 @@ const pokemonFinderService: PokemonFinderService = new PokemonFinderService(
 
 const pathParametersValidator = new PathParametersValidator(logger);
 
-export async function lambdaHandler(event: Event, context: Context) {
+export async function lambdaHandler(
+  event: APIGatewayProxyEvent,
+  context: Context,
+) {
   const getPokemonByNameController = new GetPokemonByNameController(
     event,
     logger,

@@ -1,28 +1,14 @@
 service: pokeapi-lambda
 
-plugins:
-  - serverless-dynamodb-local
-  - serverless-offline
-
-custom:
-  dynamodb:
-    stages:
-      - dev
-    inMemory: true
-    port: 8000
-    migrate: true
-    onStart: true
-
 provider:
   name: aws
   runtime: nodejs22.x
   region: ${opt:region, 'us-east-1'}
   stage: ${opt:stage, 'dev'}
-  # profile: ${aws:profile, 'default'}
 
 functions:
   getPokemonByName:
-    handler: src/features/pokemon/infraestructure/lambda/handlers/getPokemonByName.getPokemonByName
+    handler: src/features/pokemon/infraestructure/lambda/handlers/getPokemonByName.lambdaHandler
     role: getPokemonByNameIamRole
     environment:
       POKEMON_TABLE_NAME: ${self:service}-${self:provider.stage}-searchedPokemonsTable
@@ -34,7 +20,7 @@ functions:
           path: /pokemons/{pokemonName}
 
   managePokemons:
-    handler: src/features/pokemon/infraestructure/lambda/handlers/managePokemons.managePokemons
+    handler: src/features/pokemon/infraestructure/lambda/handlers/managePokemons.lambdaHandler
     role: managePokemonsIamRole
     environment:
       POKEAPI_BASE_URL: https://pokeapi.co/api/v2

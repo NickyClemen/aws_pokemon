@@ -14,12 +14,11 @@ import { Exception } from '../exceptions/exception';
 export class DynamoClientWrapper {
   private readonly isTest = process.env.JEST_WORKER_ID;
   private readonly dynamoClient: DynamoDBClient = new DynamoDBClient({
-    ...(this.isTest && {
-      endpoint: 'localhost:8000',
-      sslEnabled: false,
-      region: 'local-env',
-    }),
     region: process.env.REGION,
+    ...(this.isTest && {
+      endpoint: process.env.DYNAMO_ENDPOINT,
+      sslEnabled: false,
+    }),
   });
 
   async getItem(input): Promise<GetItemCommandOutput> {

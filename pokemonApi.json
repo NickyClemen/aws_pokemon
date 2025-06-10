@@ -1,0 +1,33 @@
+{
+	"info": {
+		"_postman_id": "0a28ada3-3adf-4a69-9a15-24f0ffa81302",
+		"name": "Pokemon API AWS",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7572893"
+	},
+	"item": [
+		{
+			"name": "https://hxwoa737oi.execute-api.us-east-1.amazonaws.com/pokemons/{{pokemonName}}",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://hxwoa737oi.execute-api.us-east-1.amazonaws.com/pokemons/{{pokemonName}}",
+					"protocol": "https",
+					"host": [
+						"mrnhdmiek8",
+						"execute-api",
+						"us-east-1",
+						"amazonaws",
+						"com"
+					],
+					"path": [
+						"pokemons",
+						"{{pokemonName}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
