@@ -80,6 +80,11 @@ curl -X GET \
 
 `sls deploy --aws-profile {{profile}} --stage {{stage}}`
 
+#### Unit testing
+
+`yarn test`
+`npm test`
+
 ### Deuda técnica
 
 - Mapear los imports en tsconfig para mejorar legibilidad.
