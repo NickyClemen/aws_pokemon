@@ -37,7 +37,7 @@ Lambda que expone un endpoint HTTP/GET. Recibe por pathParameter el nombre del p
 
 Expone un endpoint HTTP/POST sólo con fines de cumplir con requerimientos.
 
-- Realiza consultas a PokeAPI (api externa) para obtener los datos de pokemons que no se encuntren guardados en DynamoDB.
+- Realiza consultas a PokeAPI (api externa) para obtener los datos de pokemons que no se encuentren guardados en DynamoDB.
 - Permisos de escritura sobre la base de datos.
   - Se guardan las búsquedas realizadas a api externa.
 
@@ -79,11 +79,11 @@ curl -X GET \
 ### Deuda técnica
 
 - Mapear los imports en tsconfig para mejorar legibilidad.
-- Agregar unit testing específicos por clase. Se realizaron los necesarios para comprobar la integreación (el testing del módulo se realizó de manera funcional con Postman).
+- Agregar unit testing específicos por clase. Se realizaron los necesarios para comprobar la integración (el testing del módulo se realizó de manera funcional con Postman).
 - Legibilidad del árbol de directorios. Aplicar correctamente patrones de arquitectura limpia.
 - Agregar interfaces para los servicios del dominio Pokemon (GetPokemon, etc).
 - Mejora y tipado de las responses de las lambdas.
-- Observalidad de los procesos de las functions.
+- Observabilidad de los procesos de las functions.
 - Agregar control de versiones (CHANGELOG.md).
 - Variables de entorno por stage.
 - Agregar Github Actions.
