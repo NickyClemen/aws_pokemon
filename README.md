@@ -42,9 +42,11 @@ El proyecto cuenta con collection de Postman para realizar las pruebas funcional
 
 También puede ejecutarse con cURL:
 
-```curl -X GET \
+```bash
+curl -X GET \
   https://mrnhdmiek8.execute-api.us-east-1.amazonaws.com/pokemons/pikachu \
-  -H "Content-Type: application/json"```
+  -H "Content-Type: application/json"
+```
 
 Prerequisitos
 AWS CLI (tener configurado un profile de AWS)
